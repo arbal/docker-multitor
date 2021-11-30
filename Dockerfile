@@ -1,12 +1,14 @@
 FROM alpine:latest
 
 ENV BUILD_PACKAGES="build-base openssl" \
-    PACKAGES="tor sudo bash git haproxy privoxy npm procps micro htop curl lsof lnav"
+    PACKAGES="tor sudo bash git haproxy privoxy npm procps micro htop curl lsof"
 
 # install requirements
 RUN \
   apk update && apk add --no-cache $BUILD_PACKAGES $PACKAGES && \
   npm install -g http-proxy-to-socks
+  
+RUN apk add lnav --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
 
 # fix certificate problem (avoid con reset by peer)
 RUN \
